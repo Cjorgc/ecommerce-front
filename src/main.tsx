@@ -1,24 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignUp from "./components/SignUp";
-import ErrorPage from "./ErrorPage";
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <h1>Hello World</h1>,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: "/signup",
-        element: <SignUp />,
-        errorElement: <ErrorPage />,
-    },
-])
+const MyRouter = () => {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<h1>Hola mundo!</h1>}/>
+                <Route path="/signup" element={<SignUp />}/>
+            </Routes>
+        </BrowserRouter>
+    )
+}
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <MyRouter />
   </React.StrictMode>,
 )

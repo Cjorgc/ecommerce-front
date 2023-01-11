@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Form } from "react-router-dom";
 import axios from "../api/axios";
 
 interface Props {
@@ -23,7 +22,7 @@ const SignUp: FunctionComponent<Props> = () => {
     }
 
     return <>
-        <Form onSubmit={ handleSubmit }>
+        <form onSubmit={ handleSubmit }>
             <p>
                 <span>Username: </span>
                 <input
@@ -45,7 +44,7 @@ const SignUp: FunctionComponent<Props> = () => {
             <p>
                 <button type="submit">Save</button>
             </p>
-        </Form>
+        </form>
     </>
 };
 
