@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import axios from "../api/axios";
+import { AxiosError } from "axios";
 
 interface Props {
 }
@@ -7,22 +8,26 @@ interface Props {
 const SignUp: FunctionComponent<Props> = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [formError, setFormError] = useState("")
     const SIGNUP_URL = '/signup'
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             const response = await axios.post(SIGNUP_URL, {username, password})
-            const json = response.data
-            console.log(json)
-            return json
-        } catch (error) {
-            console.log("error: ", error)
+            return response.data
+        } catch (error: unknown) {
+            if (error instanceof AxiosError) {
+                setFormError(error.response?.data.message)
+                return
+            }
+            throw error
         }
     }
 
     return <>
         <form onSubmit={ handleSubmit }>
+            <p style={{color: "red"}}>{formError}</p>
             <p>
                 <span>Username: </span>
                 <input
