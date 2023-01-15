@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 interface Props {
 }
 
-const SignUp: FunctionComponent<Props> = () => {
+const Login: FunctionComponent<Props> = () => {
     const [form, setForm] = useState( { username: '', password: '', errors: {} } )
-    const SIGNUP_URL = '/signup'
+    const LOGIN_URL = '/login'
     const navigate = useNavigate()
     console.log(form)
 
@@ -16,7 +16,7 @@ const SignUp: FunctionComponent<Props> = () => {
         e.preventDefault()
         try {
             const { username, password } = form
-            const response = await axios.post(SIGNUP_URL, { username, password })
+            const response = await axios.post(LOGIN_URL, { username, password })
             let { token } = response.data;
             localStorage.setItem("token", token)
             navigate("/about")
@@ -30,7 +30,7 @@ const SignUp: FunctionComponent<Props> = () => {
     }
 
     return <>
-        <h1>Sign up</h1>
+        <h1>Log in</h1>
         <form onSubmit={ handleSubmit }>
             <div style={{color: "red"}}>{form.errors["general"]}</div>
             <div>
@@ -58,4 +58,4 @@ const SignUp: FunctionComponent<Props> = () => {
     </>
 };
 
-export default SignUp;
+export default Login;
