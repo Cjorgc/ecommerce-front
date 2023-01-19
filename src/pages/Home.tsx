@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 
-export const Home: FunctionComponent = () => {
+const Home: FunctionComponent = () => {
     return <>
         <h1>Home Page</h1>
         <nav>
@@ -10,3 +10,5 @@ export const Home: FunctionComponent = () => {
         </nav>
     </>
 }
+
+export default Home

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
-import axios from "../api/axios";
-import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { post } from "../api/AxiosClient";
+import type AuthResponse from "../models/Auth/AuthResponse";
 
 interface Props {
 }
@@ -10,19 +10,18 @@ const Login: FunctionComponent<Props> = () => {
     const [form, setForm] = useState( { username: '', password: '', errors: {} } )
     const LOGIN_URL = '/login'
     const navigate = useNavigate()
-    console.log(form)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             const { username, password } = form
-            const response = await axios.post(LOGIN_URL, { username, password })
-            let { token } = response.data;
+            const response = await post<AuthResponse>(LOGIN_URL, { username, password })
+            let { token } = response;
             localStorage.setItem("token", token)
             navigate("/about")
         } catch (error: unknown) {
-            if (error instanceof AxiosError) {
-                setForm({...form, errors: {...form.errors, general: error.response?.data.message}})
+            if (error instanceof Error) {
+                setForm({...form, errors: {...form.errors, general: error.message}})
                 return
             }
             throw error
@@ -58,4 +57,4 @@ const Login: FunctionComponent<Props> = () => {
     </>
 };
 
-export default Login;
+export default Login
