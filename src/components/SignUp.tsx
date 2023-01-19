@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { post } from "../api/AxiosClient";
-import { AxiosError } from "axios";
 import AuthResponse from "../models/Auth/AuthResponse";
 
 interface Props {
@@ -11,7 +10,6 @@ const SignUp: FunctionComponent<Props> = () => {
     const [form, setForm] = useState( { username: '', password: '', errors: {} } )
     const SIGNUP_URL = '/signup'
     const navigate = useNavigate()
-    console.log(form)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -22,7 +20,7 @@ const SignUp: FunctionComponent<Props> = () => {
             localStorage.setItem("token", token)
             navigate("/about")
         } catch (error: unknown) {
-            if (error instanceof AxiosError) {
+            if (error instanceof Error) {
                 setForm({...form, errors: {...form.errors, general: error.message}})
                 return
             }

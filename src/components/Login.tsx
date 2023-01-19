@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { post } from "../api/AxiosClient";
-import type AuthResponse from "../models/Auth/AuthResponse";
+import AuthResponse from "../models/Auth/AuthResponse";
 
 interface Props {
 }
