@@ -1,24 +1,23 @@
-import React, { FunctionComponent, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { post } from "../api/AxiosClient";
-import AuthResponse from "../models/Auth/AuthResponse";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { post } from "../../api/AxiosClient";
+import AuthResponse from "../../models/Auth/AuthResponse";
+import { isAuthenticated, login } from "../../auth/auth";
 
 interface Props {
 }
 
-const Login: FunctionComponent<Props> = () => {
+const SignUp: FunctionComponent<Props> = () => {
     const [form, setForm] = useState( { username: '', password: '', errors: {} } )
-    const LOGIN_URL = '/login'
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             const { username, password } = form
-            const response = await post<AuthResponse>(LOGIN_URL, { username, password })
-            let { token } = response;
-            localStorage.setItem("token", token)
-            navigate("/about")
+            const response = await post<AuthResponse>('/signup', { username, password })
+            login(response.token)
+            navigate("/catalog")
         } catch (error: unknown) {
             if (error instanceof Error) {
                 setForm({...form, errors: {...form.errors, general: error.message}})
@@ -28,8 +27,12 @@ const Login: FunctionComponent<Props> = () => {
         }
     }
 
+    useEffect(() => {
+        if (isAuthenticated()) navigate("/catalog")
+    }, [])
+
     return <>
-        <h1>Log in</h1>
+        <h1>Sign up</h1>
         <form onSubmit={ handleSubmit }>
             <div style={{color: "red"}}>{form.errors["general"]}</div>
             <div>
@@ -51,10 +54,13 @@ const Login: FunctionComponent<Props> = () => {
                     onChange={ e => setForm( {...form, password: e.target.value}) }/>
             </div>
             <div>
-                <button type="submit">Save</button>
+                <button type="submit">Sign Up</button>
+            </div>
+            <div>
+                Already have an account? <Link to={"/login"}>Log in</Link>
             </div>
         </form>
     </>
 };
 
-export default Login
+export default SignUp;

@@ -1,24 +1,20 @@
-import React, { FunctionComponent, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { post } from "../api/AxiosClient";
-import AuthResponse from "../models/Auth/AuthResponse";
+import { FC, FormEvent, useEffect, useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { post } from "../../api/AxiosClient";
+import AuthResponse from "../../models/Auth/AuthResponse";
+import { isAuthenticated, login } from "../../auth/auth";
 
-interface Props {
-}
-
-const SignUp: FunctionComponent<Props> = () => {
+const Login: FC = () => {
     const [form, setForm] = useState( { username: '', password: '', errors: {} } )
-    const SIGNUP_URL = '/signup'
     const navigate = useNavigate()
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
         try {
             const { username, password } = form
-            const response = await post<AuthResponse>(SIGNUP_URL, { username, password })
-            let { token } = response;
-            localStorage.setItem("token", token)
-            navigate("/about")
+            const response = await post<AuthResponse>('/login', { username, password })
+            login(response.token)
+            navigate("/catalog")
         } catch (error: unknown) {
             if (error instanceof Error) {
                 setForm({...form, errors: {...form.errors, general: error.message}})
@@ -28,12 +24,16 @@ const SignUp: FunctionComponent<Props> = () => {
         }
     }
 
+    useEffect(() => {
+        if (isAuthenticated()) navigate("/catalog")
+    }, [])
+
     return <>
-        <h1>Sign up</h1>
+        <h1>Log in</h1>
         <form onSubmit={ handleSubmit }>
             <div style={{color: "red"}}>{form.errors["general"]}</div>
             <div>
-                <span>Username: </span>
+                <label>Username: </label>
                 <input
                     placeholder="username"
                     type="text"
@@ -42,7 +42,7 @@ const SignUp: FunctionComponent<Props> = () => {
                     onChange={ e => setForm( {...form, username: e.target.value}) }/>
             </div>
             <div>
-                <span>Password: </span>
+                <label>Password: </label>
                 <input
                     placeholder="password"
                     type="password"
@@ -51,10 +51,13 @@ const SignUp: FunctionComponent<Props> = () => {
                     onChange={ e => setForm( {...form, password: e.target.value}) }/>
             </div>
             <div>
-                <button type="submit">Save</button>
+                <button type="submit">Log in</button>
+            </div>
+            <div>
+                You dont have an account? <Link to={"/signup"}>Sign up</Link>
             </div>
         </form>
     </>
 };
 
-export default SignUp;
+export default Login
