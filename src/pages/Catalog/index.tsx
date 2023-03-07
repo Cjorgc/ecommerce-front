@@ -1,9 +1,8 @@
 import { FC } from 'react';
+import ItemCard from "../../components/ItemCard";
 
-interface Props {
-}
 
-const Catalog: FC<Props> = (props) => {
+const Catalog: FC = () => {
     const items = [
         {
             id: 1,
@@ -34,25 +33,20 @@ const Catalog: FC<Props> = (props) => {
             thumbnail: 'https://drive.google.com/uc?export=view&id=18oZPtIOSl9wEEdiXsxVVNB6ciU4J2sc_'
         }
     ];
+
     return (<>
         <div style={{display: 'flex', flexDirection: "column"}}>
             <h1 style={{textAlign: "center"}}>Catalog page!</h1>
             <div style={{margin: '0 30%'}}>
                 {
-                    items.map(i =>
-                        <div style={ {display: "flex", margin: 10, justifyContent: "space-between"} }>
-                            <div>
-                                <h3>{ i.name }</h3>
-                                <p>detalle del plato</p>
-                                <p>${ i.price }</p>
-                            </div>
-                            <div>
-                                <img src={ i.thumbnail } alt="plate image" style={ {width: 100, height: 100} }/>
-                            </div>
-                        </div>)
+                    items.map(i => <ItemCard
+                        name={i.name}
+                        price={i.price}
+                        detail={"detalle del plato"}
+                        thumbnail={i.thumbnail}
+                    />)
                 }
             </div>
-
         </div>
     </>);
 };
