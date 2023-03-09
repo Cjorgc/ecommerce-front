@@ -40,6 +40,8 @@ const Catalog: FC = () => {
             <div style={{margin: '0 30%'}}>
                 {
                     items.map(i => <ItemCard
+                        key={i.id}
+                        id={i.id}
                         name={i.name}
                         price={i.price}
                         detail={"detalle del plato"}
