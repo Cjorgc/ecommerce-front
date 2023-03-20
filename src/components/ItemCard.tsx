@@ -24,25 +24,36 @@ const ItemCard: FC<Props> = (props) => {
     }
 
     return (<>
-        <div style={ {
-            display: "flex",
-            justifyContent: "space-between",
-            backgroundColor: '#DFF',
-            padding: 10,
-            marginTop: 10,
-            borderRadius: 15
-        } }>
+        <div style={ styles.container }>
             <div>
-                <h2 style={ { margin: 0 } }>{ props.name }</h2>
+                <h2 style={ styles.name }>{ props.name }</h2>
                 <p>detalle del plato</p>
                 <p>${ props.price }</p>
                 <button onClick={ handleOnBuy }>Add to Cart</button>
             </div>
-            <div style={ { alignSelf: "center" } }>
-                <img src={ props.thumbnail } alt="plate image" style={ { width: 100, height: 100, borderRadius: 10 } }/>
+            <div style={ styles.imageContainer }>
+                <img src={ props.thumbnail } alt="plate image" style={ styles.img }/>
             </div>
         </div>
     </>);
 };
+
+const styles = {
+    container: {
+        display: "flex",
+        justifyContent: "space-between",
+        backgroundColor: '#DFF',
+        padding: 10,
+        marginTop: 10,
+        borderRadius: 15
+    },
+    name: { margin: 0 },
+    imageContainer: { alignSelf: "center" },
+    img: {
+        width: 100,
+        height: 100,
+        borderRadius: 10
+    }
+}
 
 export default ItemCard;

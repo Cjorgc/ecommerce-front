@@ -7,12 +7,14 @@ import About from "./pages/About";
 import Login from "./pages/Login";
 import Catalog from "./pages/Catalog";
 import "./styles.css";
+import Header from "./components/Header";
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
             <HashRouter>
+                <Header />
                 <Routes>
-                    <Route path="/" element={ <Home/> }></Route>
+                    <Route path="/" element={ <Home/> } />
                     <Route path="/about" element={ <About/> }/>
                     <Route path="/signup" element={ <SignUp/> }/>
                     <Route path="/login" element={ <Login/> }/>
