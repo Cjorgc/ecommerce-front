@@ -1,5 +1,7 @@
 import { FC } from 'react';
 import ItemCard from "../../components/ItemCard";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 
 const Catalog: FC = () => {
@@ -35,9 +37,9 @@ const Catalog: FC = () => {
     ];
 
     return (<>
-        <div style={{display: 'flex', flexDirection: "column"}}>
-            <h1 style={{textAlign: "center"}}>Catalog page!</h1>
-            <div style={{margin: '0 30%'}}>
+        <Container>
+            <Title>Catalog page!</Title>
+            <ItemsContainer>
                 {
                     items.map(i => <ItemCard
                         key={i.id}
@@ -48,9 +50,39 @@ const Catalog: FC = () => {
                         thumbnail={i.thumbnail}
                     />)
                 }
-            </div>
-        </div>
+                <ButtonContainer to={'/'}>
+                    <CartButton>See Cart</CartButton>
+                </ButtonContainer>
+            </ItemsContainer>
+        </Container>
     </>);
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  //background-color: rebeccapurple;
+`
+
+const ItemsContainer = styled.div`
+  margin: 0 30%;
+`
+
+const Title = styled.h1`
+  text-align: center;
+`
+
+const ButtonContainer = styled(Link)`
+  width: 100%;
+  padding: 5px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+`
+
+const CartButton = styled.button`
+  width: 100%;
+`
 
 export default Catalog;
