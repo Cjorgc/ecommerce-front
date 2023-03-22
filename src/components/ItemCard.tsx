@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import styled from "styled-components";
+import { addOrUpdateItem } from "../services/cart/cartService";
 
 interface Props {
     id: number
@@ -10,26 +12,17 @@ interface Props {
 
 const ItemCard: FC<Props> = (props) => {
 
-    const handleOnBuy = (e) => {
-        const cart = localStorage.getItem("cart")
-        if (cart == null) {
-            localStorage.setItem("cart", JSON.stringify([{ id: props.id, amount: 1 }]))
-            return
-        }
-        const cartItems = JSON.parse(cart) as Array<{id: number, amount: number}>
-        const targetIndex = cartItems.findIndex(i => i.id === props.id)
-        if (targetIndex != -1) cartItems[targetIndex].amount++
-        else cartItems.push({id: props.id, amount: 1})
-        localStorage.setItem("cart", JSON.stringify(cartItems))
+    const handleOnBuy = () => {
+        addOrUpdateItem(props.id)
     }
 
     return (<>
         <div style={ styles.container }>
             <div>
                 <h2 style={ styles.name }>{ props.name }</h2>
-                <p>detalle del plato</p>
+                <p>{ props.detail }</p>
                 <p>${ props.price }</p>
-                <button onClick={ handleOnBuy }>Add to Cart</button>
+                <Button onClick={ handleOnBuy }>Add to Cart</Button>
             </div>
             <div style={ styles.imageContainer }>
                 <img src={ props.thumbnail } alt="plate image" style={ styles.img }/>
@@ -42,7 +35,7 @@ const styles = {
     container: {
         display: "flex",
         justifyContent: "space-between",
-        backgroundColor: '#DFF',
+        backgroundColor: '#e5c7ce',
         padding: 10,
         marginTop: 10,
         borderRadius: 15
@@ -55,5 +48,24 @@ const styles = {
         borderRadius: 10
     }
 }
+
+const Button = styled.button`
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #3e8e41
+  }
+  
+  &:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(1px);
+  }
+`
 
 export default ItemCard;
