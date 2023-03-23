@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from "react-router-dom";
-import { logout } from "../auth/auth";
+import { logout } from "../services/auth/auth";
 
 const Header: FC = () => {
     return (<div >

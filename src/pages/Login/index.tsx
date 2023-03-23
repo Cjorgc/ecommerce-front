@@ -2,7 +2,7 @@ import { FC, FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { post } from "../../api/AxiosClient";
 import AuthResponse from "../../models/Auth/AuthResponse";
-import { isAuthenticated, login } from "../../auth/auth";
+import { isAuthenticated, login } from "../../services/auth/auth";
 
 const Login: FC = () => {
     const [form, setForm] = useState( { username: '', password: '', errors: {} } )

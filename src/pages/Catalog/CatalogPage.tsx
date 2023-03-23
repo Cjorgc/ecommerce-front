@@ -65,11 +65,11 @@ const CatalogPage: FC = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  //background-color: rebeccapurple;
+  width: 100%;
 `
 
 const ItemsContainer = styled.div`
-  margin: 0 30%;
+  margin: 0 3%;
 `
 
 const Title = styled.h1`

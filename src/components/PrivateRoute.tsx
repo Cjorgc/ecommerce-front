@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../auth/auth";
+import { getToken } from "../services/auth/auth";
 
 interface Props {
     children: ReactNode
