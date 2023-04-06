@@ -58,6 +58,7 @@ const CatalogPage: FC = () => {
                     <CartButton>See Cart</CartButton>
                 </ButtonContainer>
             </ItemsContainer>
+            <div className="cho-container"></div>
         </Container>
     </>);
 };

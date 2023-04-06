@@ -7,7 +7,23 @@
     <title>Vite + React + TS</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="src/main.tsx"></script>
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
+  <script>
+    const mp = new MercadoPago('TEST-ae3c44d4-3b5b-43ff-b565-e20d9017d000', {
+      locale: 'es-AR'
+    });
+    mp.checkout({
+      preference: {
+        id: '1053785978-fdf3720a-3d4e-45da-a551-e0149bf0570d'
+      },
+      render: {
+        container: '.cho-container',
+        label: 'Pagar',
+      }
+    })
+  </script>
+  <div id="root"></div>
+  <script type="module" src="src/main.tsx">
+  </script>
   </body>
 </html>

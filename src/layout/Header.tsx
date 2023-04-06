@@ -1,36 +1,36 @@
 import { FC } from 'react';
 import { Link } from "react-router-dom";
 import { logout } from "../services/auth/auth";
+import styled from "styled-components";
 
 const Header: FC = () => {
-    return (<div >
+    return (<div>
         <nav >
-            <ul style={styles.container}>
-                <li style={styles.item}><Link to="/cart" style={styles.link}>Carrito</Link></li>
-                <li style={styles.item}><Link to='/login' onClick={logout} style={styles.link}>Cerrar sesión</Link></li>
-            </ul>
+            <_ul>
+                <_li><_Link to="/catalog">Catálogo</_Link></_li>
+                <_li><_Link to="/cart">Carrito</_Link></_li>
+                <_li><_Link to='/login' onClick={logout}>Cerrar sesión</_Link></_li>
+            </_ul>
         </nav>
     </div>);
 };
 
-const styles = {
-    container: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        listStyle: 'none',
-        margin: 0,
-        padding: 0,
-    },
-    item: {
-        display: 'inline-block',
-        marginRight: '20px',
-    },
-    link: {
-        textDecoration: 'none',
-        color: '#000'
-    },
-    label: {
+const _ul = styled.ul`
+  display: flex;
+  justify-content: flex-end;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`
 
-    }
-}
+const _li = styled.li`
+  display: inline-block;
+  margin-right: 20px;
+`
+
+const _Link = styled(Link)`
+  text-decoration: none;
+  color: #000;
+`
+
 export default Header;
