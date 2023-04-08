@@ -1,30 +1,27 @@
 import { FC, useEffect, useState } from 'react'
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { getItemsFromApi, ProductWithQuantity } from "../../services/cart/cartService";
 
-interface Product {
-    name: string
-    price: number
-    amount: number
-}
 
-const CartPage: FC<Product> = () => {
+const CartPage: FC = () => {
 
-    const [products, setProducts] = useState<Product[]>([])
+    const [products, setProducts] = useState<ProductWithQuantity[]>([])
 
-    const calculateTotalOf = (products: Product[]) => {
-        return products.reduce((accumulator, current) => accumulator + (current.price * current.amount), 0)
+    const calculateTotalOf = (products: ProductWithQuantity[]) => {
+        return products.reduce((acc, curr) => acc + curr.subtotal, 0)
     }
 
-    const calculateSubtotalOf = (product: Product) => { return product.price * product.amount }
+    const getItemsFromLocalStorage = async () => {
+        let items = await getItemsFromApi();
+        setProducts(items)
+    }
 
     useEffect(() => {
-        setProducts([
-            {name: "hamburguesa", price: 10, amount: 2},
-            {name: "pizza", price: 15, amount: 1},
-            {name: "empanada", price: 2, amount: 10}
-        ])
+        getItemsFromLocalStorage()
     }, [])
+
+    console.log("cartPage products: ", products)
 
     return (<Container>
         <Title>Cart Page!</Title>
@@ -35,10 +32,12 @@ const CartPage: FC<Product> = () => {
             </Detail>
             <Divider />
             {
-                products.map(p => <Detail key={p.name}>
-                    <Name>{p.name} x {p.amount} unidades</Name>
-                    <Subtotal>${calculateSubtotalOf(p)}</Subtotal>
-                </Detail>)
+                products.map(p =>
+                    <Detail key={ p.product.name }>
+                        <Name>{ p.product.name } x { p.quantity } unidades</Name>
+                        <Subtotal>${ p.subtotal }</Subtotal>
+                    </Detail>
+                )
             }
             <Divider />
             <Detail>
