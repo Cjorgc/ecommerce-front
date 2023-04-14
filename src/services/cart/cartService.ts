@@ -13,7 +13,7 @@ export const addOrUpdateItem = (id: number) => {
     PersistCartWith(cartItems)
 }
 
-export const getItemsFromApi = async () => {
+export const getItemsFromLocalStorage = async () => {
     const items = getItems()
     const path = items.map(item => `${item.id}-${item.quantity}`).join(",")
     try {
@@ -24,7 +24,17 @@ export const getItemsFromApi = async () => {
     }
 }
 
-const getItems = (): CartItem[] => {
+export const getItemsFromQuery = async (query: string) => {
+    console.log("url enviada: ", `/products/${ query }`)
+    try {
+        return await get<ProductWithQuantity[]>(`/products/${ query }`)
+    } catch (e) {
+        console.log(e)
+        return []
+    }
+}
+
+export const getItems = (): CartItem[] => {
     const cart = localStorage.getItem("cart")
     return cart ? JSON.parse(cart) as CartItem[] : initializeCart()
 }

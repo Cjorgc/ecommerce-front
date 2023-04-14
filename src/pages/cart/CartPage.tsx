@@ -1,27 +1,36 @@
 import { FC, useEffect, useState } from 'react'
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { getItemsFromApi, ProductWithQuantity } from "../../services/cart/cartService";
+import { Link, useSearchParams } from "react-router-dom";
+import {
+    getItems,
+    getItemsFromLocalStorage,
+    getItemsFromQuery,
+    ProductWithQuantity
+} from "../../services/cart/cartService";
 
 
 const CartPage: FC = () => {
-
     const [products, setProducts] = useState<ProductWithQuantity[]>([])
+    const [ params, setParams ] = useSearchParams()
 
     const calculateTotalOf = (products: ProductWithQuantity[]) => {
         return products.reduce((acc, curr) => acc + curr.subtotal, 0)
     }
 
-    const getItemsFromLocalStorage = async () => {
-        let items = await getItemsFromApi();
+    const getItemsApiFromQuery = async() => {
+        let items = await getItemsFromQuery(params.get('items')!!)
+        setProducts(items)
+    }
+
+    const getItemsApiFromLocalStorage = async () => {
+        let items = await getItemsFromLocalStorage();
         setProducts(items)
     }
 
     useEffect(() => {
-        getItemsFromLocalStorage()
+        if (params.has("items")) getItemsApiFromQuery()
+        else if (getItems().length > 0) getItemsApiFromLocalStorage()
     }, [])
-
-    console.log("cartPage products: ", products)
 
     return (<Container>
         <Title>Cart Page!</Title>
